@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Você foi hackeado</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+
+    button {
+      background: red;
+      color: white;
+      font-size: 1.5em;
+      border: none;
+      padding: 20px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: darkred;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .alerta {
+      font-size: 3em;
+      color: red;
+      margin: 20px 0;
+      animation: piscar 1s infinite;
+    }
+
+    @keyframes piscar {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    #countdown {
+      font-size: 2.5em;
+      color: yellow;
+    }
+
+    #acessos {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    #mensagemFinal {
+      margin-top: 40px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+      button {
+        font-size: 1.2em;
+        padding: 15px 20px;
+      }
+
+      .alerta {
+        font-size: 2em;
+      }
+
+      #countdown {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="audioAlert" preload="auto">
+    <source src="alerta.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <div id="inicio">
+    <button id="botaoClique">Clique aqui e garanta seu prêmio e muito mais!</button>
+  </div>
+
+  <div id="conteudo" class="hidden">
+    <div class="alerta">☠️🚨 VOCÊ FOI HACKEADO 🚨☠️</div>
+    <div id="countdown">00:10</div>
+    <div id="acessos"></div>
+    <div id="mensagemFinal" class="hidden">
+      <p><strong>Desenvolvido por: Nauan Loures</strong></p>
+      <p><strong>Turma: 2° Ano Técnico - EMTI</strong></p>
+      <p><strong>Supervisionado pelo professor Cleiton Gonçalves</strong></p>
+      <p><strong>Você poderia ter sido uma vítima de roubo e nem sabia, tome cuidado ao acessar QR CODES que você não conhece!</strong></p>
+    </div>
+  </div>
+
+  <script>
+    const botao = document.getElementById('botaoClique');
+    const inicio = document.getElementById('inicio');
+    const conteudo = document.getElementById('conteudo');
+    const countdownEl = document.getElementById('countdown');
+    const acessosEl = document.getElementById('acessos');
+    const mensagemFinal = document.getElementById('mensagemFinal');
+    const audio = document.getElementById('audioAlert');
+
+    let segundos = 10;
+
+    function atualizarAcessos() {
+      let acessos = localStorage.getItem('qrcode_acessos') || 0;
+      acessos = parseInt(acessos) + 1;
+      localStorage.setItem('qrcode_acessos', acessos);
+      acessosEl.textContent = `Número de acessos: ${acessos}`;
+    }
+
+    function iniciarContagem() {
+      const intervalo = setInterval(() => {
+        let min = Math.floor(segundos / 60);
+        let seg = segundos % 60;
+        if (seg < 10) seg = '0' + seg;
+        if (min < 10) min = '0' + min;
+        countdownEl.textContent = `${min}:${seg}`;
+        if (segundos <= 0) {
+          clearInterval(intervalo);
+          countdownEl.textContent = 'DADOS EXPOSTOS!';
+          countdownEl.style.color = 'red';
+          mensagemFinal.classList.remove('hidden');
+        }
+        segundos--;
+      }, 1000);
+    }
+
+    botao.addEventListener('click', () => {
+      inicio.classList.add('hidden');
+      conteudo.classList.remove('hidden');
+      atualizarAcessos();
+      iniciarContagem();
+      audio.play().catch(e => {
+        console.log("O áudio só pode ser ativado após interação com o usuário:", e);
+      });
+    });
+  </script>
+
+</body>
+</html>
