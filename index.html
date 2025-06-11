@@ -85,6 +85,11 @@
 </head>
 <body>
 
+  <audio id="audioAlert" preload="auto">
+    <source src="alerta.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
   <div id="inicio">
     <button id="botaoClique">Clique aqui e garanta seu prêmio e muito mais!</button>
   </div>
@@ -108,8 +113,9 @@
     const countdownEl = document.getElementById('countdown');
     const acessosEl = document.getElementById('acessos');
     const mensagemFinal = document.getElementById('mensagemFinal');
+    const audio = document.getElementById('audioAlert');
 
-    let segundos = 60;
+    let segundos = 10;
 
     function atualizarAcessos() {
       let acessos = localStorage.getItem('qrcode_acessos') || 0;
@@ -132,7 +138,7 @@
           mensagemFinal.classList.remove('hidden');
         }
         segundos--;
-      }, 10);
+      }, 1000);
     }
 
     botao.addEventListener('click', () => {
@@ -140,6 +146,9 @@
       conteudo.classList.remove('hidden');
       atualizarAcessos();
       iniciarContagem();
+      audio.play().catch(e => {
+        console.log("O áudio só pode ser ativado após interação com o usuário:", e);
+      });
     });
   </script>
 
