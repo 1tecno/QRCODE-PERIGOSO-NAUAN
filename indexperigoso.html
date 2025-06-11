@@ -6,81 +6,115 @@
   <title>Você foi hackeado</title>
   <style>
     body {
-      background-color: black;
-      color: white;
-      font-family: 'Courier New', monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-      padding: 20px;
-    }
+  background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
+  color: #e0e0e0;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  overflow: hidden;
+}
 
-    button {
-      background: red;
-      color: white;
-      font-size: 1.5em;
-      border: none;
-      padding: 20px 30px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+button {
+  background: linear-gradient(45deg, #ff003c, #ff8a00);
+  border: none;
+  padding: 18px 40px;
+  font-size: 1.6em;
+  font-weight: bold;
+  color: white;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff003c;
+  transition: all 0.3s ease-in-out;
+  user-select: none;
+}
 
-    button:hover {
-      background: darkred;
-    }
+button:hover {
+  background: linear-gradient(45deg, #ff8a00, #ff003c);
+  box-shadow: 0 0 25px #ff8a00, 0 0 40px #ff003c;
+  transform: scale(1.05);
+}
 
-    .hidden {
-      display: none;
-    }
+.alerta {
+  font-size: 4em;
+  color: #ff1a1a;
+  text-shadow:
+    0 0 5px #ff0000,
+    0 0 10px #ff3300,
+    0 0 20px #ff6600,
+    0 0 30px #ff9900;
+  margin: 25px 0;
+  animation: piscar 1s infinite alternate;
+  user-select: none;
+}
 
-    .alerta {
-      font-size: 3em;
-      color: red;
-      margin: 20px 0;
-      animation: piscar 1s infinite;
-    }
+@keyframes piscar {
+  0% { opacity: 1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
 
-    @keyframes piscar {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
+#countdown {
+  font-size: 3em;
+  font-weight: 900;
+  color: #ffff00;
+  text-shadow: 0 0 10px #ffff00, 0 0 20px #ffcc00;
+  margin-bottom: 30px;
+  user-select: none;
+}
 
-    #countdown {
-      font-size: 2.5em;
-      color: yellow;
-    }
+#acessos {
+  font-size: 1.3em;
+  margin-bottom: 20px;
+  color: #cccccc;
+  user-select: none;
+}
 
-    #acessos {
-      margin-top: 20px;
-      font-size: 1.2em;
-    }
+#mensagemFinal {
+  font-size: 1.2em;
+  color: #fff;
+  margin-top: 40px;
+  font-weight: 700;
+  user-select: none;
+}
 
-    #mensagemFinal {
-      margin-top: 40px;
-      font-size: 1.2em;
-      font-weight: bold;
-      color: white;
-    }
+#mensagemFinal strong:last-child {
+  font-weight: 900;
+  color: #ff4c4c;
+  user-select: none;
+}
 
-    @media (max-width: 600px) {
-      button {
-        font-size: 1.2em;
-        padding: 15px 20px;
-      }
+@media (max-width: 600px) {
+  button {
+    font-size: 1.3em;
+    padding: 14px 30px;
+  }
 
-      .alerta {
-        font-size: 2em;
-      }
+  .alerta {
+    font-size: 2.5em;
+    margin: 15px 0;
+  }
 
-      #countdown {
-        font-size: 2em;
-      }
-    }
+  #countdown {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+  }
+
+  #acessos {
+    font-size: 1em;
+    margin-bottom: 15px;
+  }
+
+  #mensagemFinal {
+    font-size: 1em;
+    margin-top: 30px;
+  }
+}
   </style>
 </head>
 <body>
