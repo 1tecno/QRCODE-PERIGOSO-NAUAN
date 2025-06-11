@@ -1,45 +1,152 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aviso de Golpe</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Alerta QR Code</title>
+<style>
+  body {
+    background: black;
+    color: white;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+    padding: 20px;
+  }
+  button {
+    background: red;
+    color: white;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 10px;
+    padding: 20px 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button:hover {
+    background: darkred;
+  }
+  .hidden {
+    display: none;
+  }
+  .warning {
+    font-size: 3em;
+    color: red;
+    margin: 20px 0;
+  }
+  #countdown {
+    font-size: 2.5em;
+    margin: 10px 0;
+    color: yellow;
+  }
+  #contadorAcessos {
+    margin: 10px 0;
+    font-size: 1.2em;
+  }
+  #finalMessage {
+    margin-top: 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+  }
+  @media (max-width: 600px) {
+    button {
+      font-size: 1.2em;
+      padding: 15px 20px;
+    }
+    .warning {
+      font-size: 2em;
+    }
+    #countdown {
+      font-size: 2em;
+    }
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Cuidado! Você poderia ter seus dados roubados!</h1>
-    <div class="alerta-container">
-      <section class="secao">
-        <h2>🔐 Como se proteger:</h2>
-        <ul>
-          <li>Evite clicar em links suspeitos.</li>
-          <li>Não compartilhe dados pessoais.</li>
-          <li>Ative a verificação em duas etapas.</li>
-          <li>Mantenha apps e antivírus atualizados.</li>
-          <li>Desconfie de mensagens alarmantes.</li>
-        </ul>
-      </section>
 
-      <section class="secao">
-        <h2>☠️ Se fosse real:</h2>
-        <ul>
-          <li>Roubo de senhas e contas.</li>
-          <li>Compras no seu nome.</li>
-          <li>Perda de redes sociais.</li>
-          <li>Vazamento de documentos.</li>
-          <li>Prejuízo financeiro e psicológico.</li>
-        </ul>
-      </section>
-    </div>
+<!-- Mensagem inicial -->
+<div id="startMessage">
+  <button id="startButton">Clique aqui e garanta seu prêmio e muito mais!</button>
+</div>
 
-    <footer>
-      Desenvolvido por <strong>Seu Nome</strong> – Turma <strong>Sua Turma</strong><br/>
-      Professor: <strong>Nome do Professor</strong>
-    </footer>
+<!-- Conteúdo após clicar -->
+<div id="alertSection" class="hidden">
+  <div class="warning">☠️🚨 VOCÊ FOI HACKEADO 🚨☠️</div>
+  <div id="countdown">00:05</div>
+  <div id="contadorAcessos"></div>
+  <div id="finalMessage" class="hidden">
+    <p>Nauan Loures</p>
+    <p>2° T - EMTI</p>
+    <p>Cleiton Gonçalves</p>
+    <p><strong>Você poderia ter sido uma vítima de roubo e nem sabia, tome cuidado ao acessar QR CODES que você não conhece!</strong></p>
   </div>
+</div>
 
-  <div class="icones"></div>
-  <script src="script.js"></script>
+<audio id="audioAlert" loop>
+  <source src="audio/alerta.mp3" type="audio/mpeg" />
+  Seu navegador não suporta áudio.
+</audio>
+
+<script>
+  // Contador de acessos simples via localStorage
+  function atualizaContador() {
+    let count = localStorage.getItem('contadorQR') || 0;
+    count = parseInt(count) + 1;
+    localStorage.setItem('contadorQR', count);
+    return count;
+  }
+
+  const startButton = document.getElementById('startButton');
+  const startMessage = document.getElementById('startMessage');
+  const alertSection = document.getElementById('alertSection');
+  const countdownEl = document.getElementById('countdown');
+  const contadorAcessosEl = document.getElementById('contadorAcessos');
+  const finalMessage = document.getElementById('finalMessage');
+  const audioAlert = document.getElementById('audioAlert');
+
+  let totalSeconds = 05;
+  let intervalo;
+
+  startButton.addEventListener('click', () => {
+    // Esconde o botão inicial
+    startMessage.classList.add('hidden');
+
+    // Mostra o alerta
+    alertSection.classList.remove('hidden');
+
+    // Mostra contador de acessos
+    const acessos = atualizaContador();
+    contadorAcessosEl.textContent = `Número de acessos ao site: ${acessos}`;
+
+    // Tocar o áudio (necessário interação do usuário)
+    audioAlert.play();
+
+    // Iniciar contagem regressiva
+    intervalo = setInterval(() => {
+      let minutos = Math.floor(totalSeconds / 05);
+      let segundos = totalSeconds % 05;
+      minutos = minutos < 10 ? '0' + minutos : minutos;
+      segundos = segundos < 10 ? '0' + segundos : segundos;
+      countdownEl.textContent = `${minutos}:${segundos}`;
+
+      if(totalSeconds <= 0) {
+        clearInterval(intervalo);
+        countdownEl.textContent = 'DADOS EXPOSTOS!';
+        countdownEl.style.color = 'red';
+
+        // Mostrar mensagem final
+        finalMessage.classList.remove('hidden');
+      }
+      totalSeconds--;
+    }, 1000);
+  });
+</script>
+
 </body>
 </html>
