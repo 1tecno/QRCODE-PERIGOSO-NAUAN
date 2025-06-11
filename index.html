@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚠️ ALERTA DE HACK ⚠️</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: black;
+      color: red;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      padding: 30px;
+      animation: flicker 1s infinite alternate;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px red;
+    }
+    .warning {
+      font-size: 5em;
+      animation: pulse 0.8s infinite alternate;
+    }
+    #countdown {
+      font-size: 2em;
+      margin-top: 20px;
+      color: yellow;
+    }
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 1; }
+      to { transform: scale(1.1); opacity: 0.6; }
+    }
+    @keyframes flicker {
+      0% { background-color: black; }
+      50% { background-color: darkred; }
+      100% { background-color: black; }
+    }
+    audio {
+      display: none;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      h1 { font-size: 2em; }
+      .warning { font-size: 3em; }
+      #countdown { font-size: 1.5em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="warning">☠️🚨 VOCÊ FOI HACKEADO 🚨☠️</div>
+  <h1>SEUS DADOS BANCÁRIOS SERÃO EXPOSOS EM:</h1>
+  <div id="countdown">05:00</div>
+
+  <audio id="alerta" autoplay loop>
+    <source src="audio/alerta.mp3" type="audio/mpeg" />
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const alerta = document.getElementById('alerta');
+
+    let totalSeconds = 5 * 60; // 5 minutos
+
+    function updateCountdown() {
+      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+      const seconds = String(totalSeconds % 60).padStart(2, '0');
+      countdownEl.textContent = `${minutes}:${seconds}`;
+      
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        countdownEl.textContent = "DADOS EXPOSTOS!";
+        countdownEl.style.color = "red";
+      }
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
