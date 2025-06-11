@@ -3,318 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Você foi hackeado</title>
-  <style>
-    body {
-  background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
-  color: #e0e0e0;
-  font-family: 'Courier New', Courier, monospace;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  padding: 20px;
-  text-align: center;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Luzes vermelhas pulsantes (glow) animadas no fundo */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.1;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255, 0, 0, 0.6), transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(255, 0, 0, 0.6), transparent 40%);
-  animation: pulseGlow 3s ease-in-out infinite alternate;
-}
-
-body::after {
-  animation-delay: 1.5s;
-}
-
-@keyframes pulseGlow {
-  0% {
-    opacity: 0.1;
-  }
-  100% {
-    opacity: 0.3;
-  }
-}
-
-button {
-  background: linear-gradient(45deg, #ff003c, #ff8a00);
-  border: none;
-  padding: 18px 40px;
-  font-size: 1.6em;
-  font-weight: bold;
-  color: white;
-  border-radius: 15px;
-  cursor: pointer;
-  box-shadow: 0 0 15px #ff003c;
-  transition: all 0.3s ease-in-out;
-  user-select: none;
-  position: relative;
-  z-index: 10;
-  overflow: hidden;
-}
-
-button:hover {
-  background: linear-gradient(45deg, #ff8a00, #ff003c);
-  box-shadow: 0 0 25px #ff8a00, 0 0 40px #ff003c;
-  transform: scale(1.05);
-}
-
-button::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -25%;
-  width: 150%;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.15);
-  transform: rotate(25deg);
-  transition: all 0.5s ease;
-  opacity: 0;
-}
-
-button:hover::before {
-  opacity: 1;
-  left: 100%;
-  transition: all 0.7s ease;
-}
-
-.alerta {
-  font-size: 4em;
-  color: #ff1a1a;
-  text-shadow:
-    0 0 5px #ff0000,
-    0 0 10px #ff3300,
-    0 0 20px #ff6600,
-    0 0 30px #ff9900;
-  margin: 25px 0;
-  animation: piscar 1s infinite alternate;
-  user-select: none;
-  position: relative;
-  z-index: 10;
-}
-
-/* Pequenas luzes vermelhas ao redor do texto alerta */
-.alerta::before,
-.alerta::after {
-  content: "⚠️";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.5em;
-  animation: piscar 1.5s infinite alternate;
-  opacity: 0.6;
-  color: #ff3300;
-}
-
-.alerta::before {
-  left: -2.5em;
-}
-
-.alerta::after {
-  right: -2.5em;
-}
-
-@keyframes piscar {
-  0% { opacity: 1; }
-  50% { opacity: 0.2; }
-  100% { opacity: 1; }
-}
-
-#countdown {
-  font-size: 3em;
-  font-weight: 900;
-  color: #ffff00;
-  text-shadow: 0 0 10px #ffff00, 0 0 20px #ffcc00;
-  margin-bottom: 30px;
-  user-select: none;
-  position: relative;
-  z-index: 10;
-  animation: pulseCountdown 1.5s infinite alternate;
-}
-
-@keyframes pulseCountdown {
-  0% { color: #ffff00; text-shadow: 0 0 10px #ffff00; }
-  100% { color: #ffcc00; text-shadow: 0 0 25px #ff6600; }
-}
-
-#acessos {
-  font-size: 1.3em;
-  margin-bottom: 20px;
-  color: #cccccc;
-  user-select: none;
-  position: relative;
-  z-index: 10;
-}
-
-#mensagemFinal {
-  font-size: 1.2em;
-  color: #fff;
-  margin-top: 40px;
-  font-weight: 700;
-  user-select: none;
-  position: relative;
-  z-index: 10;
-  max-width: 400px;
-  line-height: 1.4;
-}
-
-#mensagemFinal strong:last-child {
-  font-weight: 900;
-  color: #ff4c4c;
-  user-select: none;
-}
-
-#mensagemDicas {
-  margin-top: 30px;
-  font-size: 1em;
-  font-style: italic;
-  color: #ff6666;
-  font-weight: 600;
-  text-shadow: 0 0 3px #ff6666;
-  user-select: none;
-  position: relative;
-  z-index: 10;
-  max-width: 400px;
-}
-
-@media (max-width: 600px) {
-  button {
-    font-size: 1.3em;
-    padding: 14px 30px;
-  }
-
-  .alerta {
-    font-size: 2.5em;
-    margin: 15px 0;
-  }
-
-  #countdown {
-    font-size: 2.2em;
-    margin-bottom: 20px;
-  }
-
-  #acessos {
-    font-size: 1em;
-    margin-bottom: 15px;
-  }
-
-  #mensagemFinal {
-    font-size: 1em;
-    margin-top: 30px;
-    max-width: 300px;
-  }
-
-  #mensagemDicas {
-    font-size: 0.9em;
-    max-width: 300px;
-  }
-}
-  </style>
+  <title>⚠️ Alerta de Golpe ⚠️</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+  <div class="background-overlay"></div>
 
-  <audio id="audioAlert" preload="auto">
-    <source src="alerta.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
+  <h1 class="alert-title">⚠️ Cuidado! Você poderia ter seus dados roubados! ⚠️</h1>
 
-  <div id="inicio">
-    <button id="botaoClique">Clique aqui e garanta seu prêmio e muito mais!</button>
-  </div>
+  <div class="container">
+    <div class="box warning fade-in-left">
+      <h2>🛡️ Como se prevenir de golpes:</h2>
+      <ul>
+        <li>Verifique o link antes de clicar;</li>
+        <li>Evite informar dados em sites desconhecidos;</li>
+        <li>Não baixe arquivos suspeitos;</li>
+        <li>Desconfie de mensagens com senso de urgência;</li>
+        <li>Use senhas fortes e autenticador;</li>
+        <li>Mantenha seu antivírus atualizado.</li>
+      </ul>
+    </div>
 
-  <div id="conteudo" class="hidden">
-    <div class="alerta">☠️🚨 VOCÊ FOI HACKEADO 🚨☠️</div>
-    <div id="countdown">00:10</div>
-    <div id="acessos"></div>
-    <div id="mensagemFinal" class="hidden">
-      <p><strong>Desenvolvido por: Nauan Loures</strong></p>
-      <p><strong>Turma: 2° Ano Técnico - EMTI</strong></p>
-      <p><strong>Supervisionado pelo professor Cleiton Gonçalves</strong></p>
-      <p><strong>Você poderia ter sido uma vítima de roubo e nem sabia, tome cuidado ao acessar QR CODES que você não conhece!</strong></p>
+    <div class="box danger fade-in-right">
+      <h2>💀 Se fosse um golpe real, o que aconteceria?</h2>
+      <ul>
+        <li>Roubo de senhas e contas bancárias;</li>
+        <li>Uso indevido da sua identidade;</li>
+        <li>Compras em seu nome;</li>
+        <li>Prejuízo financeiro e emocional;</li>
+        <li>Perda de acesso a redes sociais ou e-mail.</li>
+      </ul>
     </div>
   </div>
 
-  <script>
-    const botao = document.getElementById('botaoClique');
-const inicio = document.getElementById('inicio');
-const conteudo = document.getElementById('conteudo');
-const countdownEl = document.getElementById('countdown');
-const acessosEl = document.getElementById('acessos');
-const mensagemFinal = document.getElementById('mensagemFinal');
+  <footer>
+    Desenvolvido por <strong>Seu Nome</strong> | Turma: <strong>Sua Turma</strong> | Professor: <strong>Nome do Professor</strong>
+  </footer>
 
-let segundos = 10;
-let dicasIndex = 0;
-
-const dicas = [
-  "Nunca clique em links suspeitos.",
-  "Verifique sempre a fonte antes de escanear QR Codes.",
-  "Atualize seu antivírus regularmente.",
-  "Nunca forneça seus dados pessoais a desconhecidos.",
-  "Use autenticação em duas etapas sempre que possível."
-];
-
-function atualizarAcessos() {
-  let acessos = localStorage.getItem('qrcode_acessos') || 0;
-  acessos = parseInt(acessos) + 1;
-  localStorage.setItem('qrcode_acessos', acessos);
-  acessosEl.textContent = `Número de acessos: ${acessos}`;
-}
-
-function iniciarContagem() {
-  const intervalo = setInterval(() => {
-    let min = Math.floor(segundos / 60);
-    let seg = segundos % 60;
-    if (seg < 10) seg = '0' + seg;
-    if (min < 10) min = '0' + min;
-    countdownEl.textContent = `${min}:${seg}`;
-
-    if (segundos <= 0) {
-      clearInterval(intervalo);
-      countdownEl.textContent = 'DADOS EXPOSTOS!';
-      countdownEl.style.color = '#ff0000';
-      mensagemFinal.classList.remove('hidden');
-      mostrarDicasFinal();
-    }
-
-    segundos--;
-  }, 1000);
-}
-
-function mostrarDicasFinal() {
-  const dicasContainer = document.createElement('div');
-  dicasContainer.id = 'mensagemDicas';
-  conteudo.appendChild(dicasContainer);
-
-  function mostrarProximaDica() {
-    dicasContainer.textContent = dicas[dicasIndex];
-    dicasIndex++;
-    if (dicasIndex >= dicas.length) dicasIndex = 0;
-  }
-
-  mostrarProximaDica();
-  setInterval(mostrarProximaDica, 5000);
-}
-
-botao.addEventListener('click', () => {
-  inicio.classList.add('hidden');
-  conteudo.classList.remove('hidden');
-  atualizarAcessos();
-  iniciarContagem();
-});
-  </script>
-
+  <div id="alert-symbols"></div>
+  <script src="script.js"></script>
 </body>
 </html>
