@@ -2,88 +2,125 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>⚠️ ALERTA DE HACK ⚠️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⚠ Alerta de Vírus</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background: black;
-      color: red;
-      font-family: 'Courier New', monospace;
-      text-align: center;
-      padding: 30px;
-      animation: flicker 1s infinite alternate;
-    }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px red;
-    }
-    .warning {
-      font-size: 5em;
-      animation: pulse 0.8s infinite alternate;
-    }
-    #countdown {
-      font-size: 2em;
-      margin-top: 20px;
-      color: yellow;
-    }
-    @keyframes pulse {
-      from { transform: scale(1); opacity: 1; }
-      to { transform: scale(1.1); opacity: 0.6; }
-    }
-    @keyframes flicker {
-      0% { background-color: black; }
-      50% { background-color: darkred; }
-      100% { background-color: black; }
-    }
-    audio {
-      display: none;
+      background: linear-gradient(135deg, #111, #222);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    /* Responsividade */
-    @media (max-width: 600px) {
-      h1 { font-size: 2em; }
-      .warning { font-size: 3em; }
-      #countdown { font-size: 1.5em; }
+    .container {
+      text-align: center;
+      padding: 40px;
+      background-color: #1a1a1a;
+      border: 2px solid crimson;
+      border-radius: 12px;
+      box-shadow: 0 0 20px crimson;
+      max-width: 600px;
+    }
+
+    .alerta h1 {
+      color: crimson;
+      font-size: 2em;
+      animation: piscar 1s infinite;
+    }
+
+    .alerta p {
+      font-size: 1.2em;
+    }
+
+    #timer {
+      font-size: 2em;
+      color: yellow;
+    }
+
+    .mensagem h2 {
+      color: #00ff88;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+
+    .mensagem p {
+      font-size: 1em;
+      margin: 10px 0;
+    }
+
+    .info {
+      text-align: left;
+      background-color: #2b2b2b;
+      padding: 10px;
+      border-left: 4px solid #00ff88;
+      margin-top: 15px;
+      border-radius: 5px;
+    }
+
+    .autor {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #bbb;
+    }
+
+    @keyframes piscar {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <div class="warning">☠️🚨 VOCÊ FOI HACKEADO 🚨☠️</div>
-  <h1>SEUS DADOS BANCÁRIOS SERÃO EXPOSOS EM:</h1>
-  <div id="countdown">00:05</div>
-
-  <audio id="alerta" autoplay loop>
-    <source src="audio/alerta.mp3" type="audio/mpeg" />
-    Seu navegador não suporta áudio.
-  </audio>
+  <div class="container">
+    <div class="alerta">
+      <h1>⚠ ALERTA DE VÍRUS DETECTADO ⚠</h1>
+      <p>Seu sistema será comprometido em <span id="timer">5</span> segundos...</p>
+    </div>
+    <div class="mensagem" id="mensagemFinal" style="display: none;">
+      <h2>😱 Isso foi um simulado.</h2>
+      <p>
+        Se fosse real, seus arquivos poderiam ser roubados, apagados ou criptografados por hackers.
+      </p>
+      <p class="info">
+        🔒 <strong>Como se proteger:</strong><br>
+        – Não clique em links suspeitos.<br>
+        – Não baixe arquivos de fontes desconhecidas.<br>
+        – Use antivírus e mantenha o sistema atualizado.
+      </p>
+      <p class="info">
+        💻 <strong>O que aconteceria em um ataque real:</strong><br>
+        – Perda total de dados.<br>
+        – Invasão de privacidade.<br>
+        – Vazamento de informações bancárias.
+      </p>
+      <div class="autor">
+        <p><strong>Desenvolvido por:</strong> Seu Nome</p>
+        <p><strong>Turma:</strong> Sua Turma</p>
+        <p><strong>Professor:</strong> Nome do Professor</p>
+      </div>
+    </div>
+  </div>
 
   <script>
-    const countdownEl = document.getElementById('countdown');
-    const alerta = document.getElementById('alerta');
+    let count = 5;
+    const timerElement = document.getElementById("timer");
+    const mensagemFinal = document.getElementById("mensagemFinal");
 
-    let totalSeconds = 5 * 05; // 5 minutos
-
-    function updateCountdown() {
-      const minutes = String(Math.floor(totalSeconds / 5)).padStart(2, '0');
-      const seconds = String(totalSeconds % 5).padStart(2, '0');
-      countdownEl.textContent = `${minutes}:${seconds}`;
-      
-      if (totalSeconds > 0) {
-        totalSeconds--;
-      } else {
-        countdownEl.textContent = "DADOS EXPOSTOS!";
-        countdownEl.style.color = "red";
+    const intervalo = setInterval(() => {
+      count--;
+      timerElement.textContent = count;
+      if (count === 0) {
+        clearInterval(intervalo);
+        document.querySelector(".alerta").style.display = "none";
+        mensagemFinal.style.display = "block";
       }
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    }, 1000);
   </script>
 </body>
 </html>
